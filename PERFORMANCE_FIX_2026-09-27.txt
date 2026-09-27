@@ -1,0 +1,13 @@
+2026-09-27 performance/500 fix
+
+- Replaced per-request Neon connection creation with ThreadedConnectionPool.
+- Added hot in-memory cache for active game sessions so Mines/Crash status checks do not hit Neon on every lookup.
+- Cached authentication within each HTTP request to avoid duplicate block/user checks.
+- Added JSON 500 middleware so Mini App receives a controlled JSON error instead of an HTML error page.
+- Made Neon session persistence failures non-fatal for an already-started in-memory round, avoiding a misleading HTTP 500 after a balance deduction.
+- Replaced raw HTTP 500/429 toast text with user-friendly server/network messages.
+- Removed the application's periodic self-ping task from bot/main.py.
+- Reduced the artificial loading-screen duration from 3.6s to 0.9s in both HTML copies.
+- Cached admin chat IDs and moved the blocking admin-user DB lookup off the Telegram event loop.
+
+Important: the supplied bot/config.py contains live credentials. Rotate the bot token and Neon password in the provider dashboards before sharing this repository further.
